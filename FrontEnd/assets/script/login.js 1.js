@@ -23,7 +23,7 @@ async function login(event) {
             const data = await response.json();
             window.sessionStorage.setItem("loged", true);
             messageErreur.textContent = "Connexion réussie";
-            window.location.href = 'index.html'; // Redirigez vers le tableau de bord après la connexion
+            window.location.href = 'dashboard.html'; // Redirigez vers le tableau de bord après la connexion
         } else {
             const errorData = await response.json();
             email.classList.add("loginEmail__error");

@@ -71,10 +71,6 @@ function createWorks(work) {
 
 }
 
-
-
-
-
 // *****************Affichage des boutons par catégorie*****************/
 
 
@@ -134,14 +130,196 @@ filterCategory();
 
 //Si l'utilisateur et conecté
 
-//const loged = window.sessionStorage.loged;
-//console.log(loged);
-//const admin = document.querySelector("header nav .admin");
+const loged = window.sessionStorage.loged;
+const admin = document.querySelector("header nav .admin");
+const logout = document.querySelector("header nav .logout");
+const containerModals = document.querySelector(".containerModals");
+const xmark = document.querySelector(".containerModals .fa-xmark");
+const chantierModal= document.querySelector(".containerModals .chantierModal");
 
 
 
+if (loged == "true") {
+admin.textContent = "Admin";
+logout.textContent = "logout";
+logout.addEventListener("click", () => { //Si l'utilisateur click sur logout , il est déconecté
+  window.sessionStorage.loged = false;
+});
+};
 
-//fenetre modale
+
+//Affichage de la modale au click sur admin
+admin.addEventListener("click", () => {
+  console.log("admin");
+  containerModals.style.display="flex" // Change dans CSS l'attribut "display: none" en flex pour affichage la modale
+});
+
+//fermeture de la modale au click sur la croix
+xmark.addEventListener("click", () => {
+  console.log("xmark");
+  containerModals.style.display="none" // Change dans CSS l'attribut "display: flex" en none pour fermer la modale
+});
+
+//fermeture de la modale au click à coté
+containerModals.addEventListener("click", (e) => {
+  console.log(e.target.className);
+  if (e.target.className == "containerModals") {
+        containerModals.style.display="none";
+  }
+});
+
+//manageDisplayModalChantier();
+
+//affichage du chantier dans la galerie
+async function displayChantierModal() {
+  chantierModal.innerHTML =""
+  const chantier = await getWorks();
+  console.log(chantier);
+chantier.forEach(work => {
+  const figure = document.createElement("figure")
+  const img = document.createElement("img")
+  const span = document.createElement("span")
+  const trash = document.createElement("i")
+  trash.classList.add("fa-solid","fa-trash-can")
+  trash.id = work.id
+  img.src = work.imageUrl
+  span.appendChild(trash)
+  figure.appendChild(span)
+  figure.appendChild(img)
+  chantierModal.appendChild(figure)
+
+});
+deleteWork()
+}
+
+displayChantierModal()
 
 
+//Suppression d'une image dans la modal
+function deleteWork() {
+  const trashAll = document.querySelectorAll(".fa-trash-can")
+  console.log(trashAll);
+  trashAll.forEach(trash => {
+    trash.addEventListener("click",(e)=>{
+      const id = trash.id
+      const init ={
+        method:"DELETE",
+        headers:{"content-type":"application/json"},
+      }
+      fetch("http://localhost:5678/api/works" +id,init)
+      .then((response)=>{
+        if (!response.ok) {
+          console.log("le delete n'a pas marché !")
+        }
+        return response.json()
+      })
+      .then((data)=>{
+        console.log("Le delete a réussi voici la data :",data)
+        displayChantierModal()
+        getWorks()
+      })
+    })
+  })
+}
+//Faire apparaitre la deuxime modale une fois le html fini
+const btnAddModal = document.querySelector(".modalChantier button")
+const modalAddPhoto = document.querySelector(".modalAddPhoto")
+const modalChantier = document.querySelector(".modalChantier")
+const arrowLeft = document.querySelector(".fa-arrow-left")
+const markAdd = document.querySelector(".modalAddPhoto .fa-xmark")
 
+
+function displayAddModal() {
+btnAddModal.addEventListener("click",()=>{ //Ajouter une photo et Faire apparaitre le modale Ajout Photo
+  modalAddPhoto.style.display = "flex"
+  modalChantier.style.display = "none"
+})
+arrowLeft.addEventListener("click",()=>{ //Revenir en arrière sur le modale Galerie photo
+  modalAddPhoto.style.display = "none"
+  modalChantier.style.display = "flex"
+})
+markAdd.addEventListener("click",()=>{ //Faire disparaitre le modale
+  containerModals.style.display = "none"
+})
+}
+displayAddModal()
+//Faire la previsualisation de l'image
+
+const previewImg = document.querySelector(".containaeFile img")
+const inputFile = document.querySelector(".containaeFile input")
+const labelFile = document.querySelector(".containaeFile label")
+const inconFile = document.querySelector(".containaeFile .fa-image")
+const pFile = document.querySelector(".containaeFile p")
+
+// ajouter une image et prévisualiser l'image
+inputFile.addEventListener("change", ()=>{
+  const file = inputFile.files[0]
+  console.log(file);
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e){
+      previewImg.src = e.target.result
+      previewImg.style.display = "flex"
+      labelFile.style.display = "none"
+      inconFile.style.display = "none"
+      pFile.style.display = "none"
+    }
+
+    reader.readAsDataURL(file);
+  }
+
+})
+
+// Création d'une liste de catégories dans l'input Select
+async function displayCategoryModal (){
+  const select = document.querySelector(".modalAddPhoto select")
+  const categorys = await getCategorys()
+  categorys.forEach(category => {
+    const option = document.createElement("option")
+    option.value = category.id
+    option.textContent = category.name
+    select.appendChild(option)
+  })
+}
+displayCategoryModal ()
+
+// Faire un POST pour ajouter une photo
+const form = document.querySelector(".modalAddPhoto form")
+const title = document.querySelector(".modalAddPhoto #title")
+const category = document.querySelector(".modalAddPhoto #categorie")
+
+form.addEventListener("submit",async (e)=>{
+  e.preventDefault() // Annule le comprotement par défaut
+  const formData = new FormData(form)
+  fetch("http://localhost:5678/api/works",{
+   method:"POST",
+   body:JSON.stringify(formData),
+   headers:{
+    "content-Type":"application/json"
+   }
+  })
+   .then(response => response.json())
+   .then(data =>{
+    console.log(data);
+    console.log("voici le photo ajouté",data);
+    displayChantierModal()
+    displayChantier()
+  })
+  .catch(error => console.log("voici l'erreur",error))
+  
+})
+
+//Fonction qui vérifie si tout les inputs sont remplis
+function verifFormCompleted() {
+  const buttonValidForm = document.querySelector(".modalAddPhoto button")
+  form.addEventListener("input",()=>{
+    if (!title.value =="" && !category.value =="" && !inputFile.value ==""){
+      buttonValidForm.classList.add("valid")
+    }
+    else{
+      buttonValidForm.classList.remove("valid")
+      buttonValidForm.disabled = true
+    }
+  })
+}
+verifFormCompleted()

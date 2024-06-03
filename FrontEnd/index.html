@@ -13,91 +13,15 @@
 	
 </head>
 <body>
-
-
-	<!-- MODULE ADMIN -->
-<!-- Mode édition -->
-<aside class="admin__rod admin__modifer" aria-hidden="true"><!-- style="display: none;"-->
-	<div class="admin__modifer">
-		<i class="fa-solid fa-pen-to-square"></i>
-		<p>Mode édition</p>
-	</div>
-	<a href="./login.html">
-		<button>Publier les changements</button>
-	</a>
-</aside>
-
-<!-- Mode galerie Photo -->
-<aside id="modale" class="modale" aria-hidden="true" ><!-- style="display: none;"-->
-	<div class="modale-wrapper js-modale-stop">
-		<a href="" class="js-modale-close">
-			<i class="fa-solid fa-xmark"></i>
-		</a>
-		<h2>Galerie photo</h2>
-		<div class="js-admin-projets">
-			<!-- generation des photos dynamiquement -->
-		</div>
-		<a href="#modaleProjet" class="js-modale-projet">Ajouter un projet</a>
-		<a class="btn-clear-admin" href="#">Supprimer la galerie</a>	
-	</div>
-</aside>
-
-
-<!-- Mode ajout projet-->
-<aside id="modaleProjet" class="modale-projet" aria-hidden="true" ><!-- style="display: none;"-->
-	<div class="modale-wrapper js-modale-stop">
-		<div class="modale-projet-logo">
-			<a href="" class="js-modale-return">
-				<i class="fa-solid fa-arrow-left"></i>
-			</a>
-			<a href="" class="js-modale-close">
-				<i class="fa-solid fa-xmark"></i>
-			</a>
-		</div>
-
-		<h2>Ajout d'un projet</h2>
-
-		<form class="modale-projet-form" action="" enctype="multipart/form-data">
-
-			<div class="form-group-photo">
-				<i class="fa-regular fa-image"></i>
-				<label for="photo">+ Ajouter une photo</label>
-				<input type="file" name="photo" id="photo" class="js-image">
-			</div>
-
-			<div class="form-group-title">
-				<label for="titre">Titre</label>
-				<input class="js-title" type="text" name="titre" id="titre">
-			</div>
-
-			<div class="form-group-id">
-				<label for="categorie">Catégorie</label>
-				<select name="categorie" id="categorie" class="js-categoryId">
-					<option value="1">Objets</option>
-					<option value="2">Appartements</option>
-					<option value="3">Hôtels & restaurants</option>
-				</select>
-			</div>
-
-			<input type="submit" class="js-add-work" value="Ajouter le projet">
-		</form>
-	</div>
-</aside>
-<!--  -->
-
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
 			<a href="#portfolio"><li>projets</li></a>
 			<a href="#contact"><li>contact</li></a>
-			<a href="login.html"><li class="js-alredy-logged">login</li></a>
-			<a href="https://www.instagram.com" target="_blank">
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li></a>
-			<!--<li><a href="index.html" alt="projet">projets</a></li>
-			<li><a href="#">contact</a></li>
-			<li> <a href="login.html" alt="login">login</a>	</li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>-->
+			<a href="login.html"><li class="js-alredy-logged logout">login</li></a>
+			<a><li class="admin"></li></a>
+			<a href="https://www.instagram.com" target="_blank"><li><img src="./assets/icons/instagram.png" alt="Instagram"></li></a>
 		</ul>
 	</nav>
 </header>
@@ -105,16 +29,9 @@
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
-			<div class="admin__modifer" style="display: none;">
-				<i class="fa-solid fa-pen-to-square"></i>
-				<a href="#modale" class="js-modale">Modifier</a>
-			</div>
 		</figure>
+
 		<article>
-			<div class="admin__modifer" aria-hidden="true" ><!-- style="display: none;"-->
-				<i class="fa-solid fa-pen-to-square"></i>
-				<a href="#modale" class="js-modale">Modifier</a>
-			</div>
 			<h2>Designer d'espace</h2>
 			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
 			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
@@ -125,7 +42,7 @@
 	<section id="portfolio">
 		<div class="portfolio-title">
 			<h2>Mes Projets</h2>
-			<div class="admin__modifer" aria-hidden="true" ><!--style="display: none;"-->
+			<div class="admin__modifer" aria-hidden="true"><!--style="display: none;"-->
 				<i class="fa-solid fa-pen-to-square"></i>
 				<a href="#modale" class="js-modale">Modifier</a>
 			</div>
@@ -137,6 +54,7 @@
 		</div>
 
 	</section>
+
     <section id="gallerie">
 		<!--contenu crée par Java Script voir Modale.js -->
 	</section>
@@ -162,6 +80,35 @@
 		</ul>
 	</nav>
 </footer>
+<div class="containerModals">
+	<div class="modalChantier">
+		<!--contenu crée par Java Script voir Modale.js -->
+		<span><i class="fa-solid fa-xmark"></i></span>
+		<h2>Galerie photo</h2>
+		<div class="chantierModal"></div>
+		<button>Ajouter une photo</button>
+	</div>
+	<div class="modalAddPhoto">
+		<span><i class="fa-solid fa-arrow-left"></i></span>
+		<span><i class="fa-solid fa-xmark"></i></span>
+		<h2>Ajout Photo</h2>
+		<form>
+			<div class="containaeFile">
+				<span><i class="fa-regular fa-image"></i></span>
+				<label for="file">+Ajouter photo</label>
+				<input type="file" id="file" name="image">
+                <img src="#" alt="Apercut de l'image">
+				<p>jpg,png: 4 mo max</p>
+			</div>
+			<label for="title">Titre</label>
+			<input type="text" id="title" name="title">
+			<label for="categorie">Catégorie</label>
+			<select name="categorie" id="categorie"></select>
+			<button class="valider" disabled>Valider</button>
+		</form>
+	</div>
+</div>
+
 <script src="./assets/script/modale.js" defer></script> 
 </body>
 </html>

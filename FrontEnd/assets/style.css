@@ -141,7 +141,7 @@ text-align: center;
 button {
 	font-family: 'Syne';
 	font-weight: 700;
-	color:  #1D6154;
+	color: #1D6154;
 	background-color: white;
 	margin : 2em auto ;
 	height: 35px;
@@ -287,30 +287,154 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 /*style MODULE ADMIN*/
-*{box-sizing: border-box;}
-.modale{
-	position: fixed;
-	display: flex;
+
+.containerModals{
+	display: none;
+	justify-content: center;
 	align-items: center;
-	top: 0;
-	left: 0;
+	position: relative;
+	margin-top: -280%;
 	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.8);
+	height: auto;
+	background: rgba(188, 182, 182, 0.8);
 
 }
-.modale-wrapper{
-	overflow: auto;
-	height: 250px;
-	width: 400px;
-	max-width: calc(100vh - 20px);
-	max-height: calc(100vh - 20px);
-	padding: 20px;
-	background-color: #d76161;
+.modalChantier {
+	background-color: white;
+	display: flex;
+	height: 99%;
+	width: 50%;
+	border-radius: 5px;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	position: relative;
+
 }
+.fa-xmark {
+    position: absolute;
+    top: 20px;
+	right: 20px;
+	cursor: pointer;
+}
+
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em;
+}
+
+/*style Modal Works*/
+
+.modalChantier h2 {
+	margin-top: 20px;
+
+
+}
+
+
+.chantierModal {
+	margin-top: 30px;
+	width: 80%;
+	height: 90%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 1px;
+	grid-row-gap: 1px;
+	}
+
+.chantierModal figure{
+width: auto;
+display: flex;
+
+}
+.chantierModal img{
+	width: 70px;
+		
+}
+.chantierModal span{
+	display:flex-end;
+	
+	
+		
+}
+
+/* modalAddPhoto*/
+.modalAddPhoto {
+	background-color: white;
+	display: none;
+	height: 99%;
+	width: 50%;
+	border-radius: 5px;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	position: relative; 	
+}
+.fa-arrow-left{
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	font-size: 20px;
+	cursor: pointer;
+
+}
+form{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 80%;
+	width: 80%;
+	gap: 10px;
+}
+.containaeFile{
+	background-color: grey;
+	height: 30%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 5px;
+}
+.containaeFile label{
+	background-color: black;
+	color: white;
+	height: 30%;
+	border-radius: 15px;
+	padding: 5px 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+}
+.containaeFile input{
+	display: none;
+
+}
+.containaeFile .fa-image{
+	font-size: 3rem;
+
+}
+.containaeFile img{
+	display: none;
+	max-width: 100%;
+	height: 100%;
+
+}
+.valider{
+	border: none;
+	cursor: pointer;
+	font-family: 'Syne';
+  font-weight: 700;
+  background-color:#818786;
+  margin: 2em auto;
+  height: 35px;
+  width: 150px;
+  text-align: center;
+  border-radius: 60px;
+  color: white;
+}
+.valider:focus{
+	background-color:#1D6154;
+	color: white;
 }
