@@ -8,7 +8,7 @@ const messageErreur = document.querySelector(".login p");
 
 async function getUsers() {
     try {
-        const response = await fetch("http://localhost:5678/api/users/login");
+        const response = await fetch("http://localhost:5678/api/users");
         console.log(response);
         return await response.json();
        
@@ -30,8 +30,10 @@ async function login() {
        users.forEach((user) => {
             // verifications
             if (user.email == userEmail && user.password == userPwd){ 
-              // si les conditions ne sont pas remplies on fait ça 
-              window.sessionStorage.loged = true;     
+              // si les conditions sont pas remplies on fait ça 
+              window.sessionStorage.loged = true;
+              window.location.href = "../index.html"; 
+              //console.log("je suis connecte");  
                 
             } else {
                 // message d'erreur
@@ -45,4 +47,3 @@ async function login() {
 
 login();
 
-// essai commit 2

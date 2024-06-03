@@ -134,12 +134,14 @@ filterCategory();
 
 //Si l'utilisateur et conecté
 
-/*const loged = window.sessionStorage.loged;
-const admin = document.querySelector("header nav .admin");*/
+//const loged = window.sessionStorage.loged;
+//console.log(loged);
+//const admin = document.querySelector("header nav .admin");
 
 
 
 
+//fenetre modale
 
 
 

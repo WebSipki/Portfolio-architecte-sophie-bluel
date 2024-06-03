@@ -24,11 +24,12 @@
 		</ul>
 	</nav>
 </header>
+
 <main>
     <section class="login">
         <h2>Log In</h2>
 		<p></p>
-        <form action="" method="" class="login__form" onsubmit="return false">
+        <form id="login__form">
             <label for="email">E-mail</label>
             <input type="email" name="email" id="email" required>
             <div>
@@ -38,14 +39,12 @@
             <div>
             </div>
             <input type="submit" value="Se connecter" id="submit">
+			<p class="error-message"></p>
         </form>
         <a href="">Mot de passe oublié</a>
     </section>
 </main>
 
-
-<script src="./assets/script/login.js" defer></script> 
-</body>
 <footer>
 	<nav>
 		<ul>
@@ -53,4 +52,7 @@
 		</ul>
 	</nav>
 </footer>
+<script src="./assets/script/login.js" defer></script> 
+</body>
+
 </html>       
