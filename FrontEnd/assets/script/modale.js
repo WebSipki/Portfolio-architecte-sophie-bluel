@@ -7,7 +7,7 @@ const filters = document.querySelector(".filters");
 
 
 // Récupération des éléments depuis le Swager
-async function getWorks() {
+async function getWorks() { /*(async)pour dire que à cette fonction il doit falloir attendre avant continue à lire mon code */
 const response = await fetch("http://localhost:5678/api/works");
 data = await response.json();
 console.log(data);
@@ -15,10 +15,11 @@ return data;
 }
 getWorks(); 
 
-// Création des balises avec createElement :
+//Affichage des works dans le DOM:
 async function affichageWorks() {
   const arrayWorks = await getWorks();
   arrayWorks.forEach((work) => {
+    // Création des balises dans le code HTML avec createElement :
     const figureElement = document.createElement("figure");
 
     const imageElement = document.createElement("img");
@@ -40,13 +41,10 @@ async function affichageWorks() {
     figureElement.appendChild(imageElement);
     figureElement.appendChild(figcaptionElement);
     figcaptionElement.appendChild(nomElement);
-    figcaptionElement.appendChild(categorieElement);
-
-    // Afficher les éléments
-    
-  })
+    figcaptionElement.appendChild(categorieElement); 
+    })
 };
-
+// Afficher les éléments
 affichageWorks();
 
 // fonction création des works
@@ -119,9 +117,7 @@ async function filterCategory() {
           affichageWorks();
         }
         //console.log(btnId);
-      });
-      
-
+    });
   });
 
 }
@@ -131,16 +127,24 @@ filterCategory();
 //Si l'utilisateur et conecté
 
 const loged = window.sessionStorage.loged;
-const admin = document.querySelector("header nav .admin");
+const admin = document.querySelector(".portfolio-title .js-modale");
 const logout = document.querySelector("header nav .logout");
 const containerModals = document.querySelector(".containerModals");
 const xmark = document.querySelector(".containerModals .fa-xmark");
 const chantierModal= document.querySelector(".containerModals .chantierModal");
-
+const icon = document.querySelector("#admin__modifer");
 
 
 if (loged == "true") {
-admin.textContent = "Admin";
+  const span = document.createElement("span")
+  const trash = document.createElement("i")
+  trash.classList.add("fa-solid","fa-trash-can")
+  span.appendChild(trash)
+const modif = document.createElement("i")
+modif.classList.add("fa-solid","fa-pen-to-square")
+icon.appendChild(modif)
+icon.appendChild(span)
+icon.textContent = "Modifier";
 logout.textContent = "logout";
 logout.addEventListener("click", () => { //Si l'utilisateur click sur logout , il est déconecté
   window.sessionStorage.loged = false;
@@ -149,9 +153,10 @@ logout.addEventListener("click", () => { //Si l'utilisateur click sur logout , i
 
 
 //Affichage de la modale au click sur admin
-admin.addEventListener("click", () => {
+icon.addEventListener("click", () => {
   console.log("admin");
   containerModals.style.display="flex" // Change dans CSS l'attribut "display: none" en flex pour affichage la modale
+
 });
 
 //fermeture de la modale au click sur la croix
@@ -167,8 +172,6 @@ containerModals.addEventListener("click", (e) => {
         containerModals.style.display="none";
   }
 });
-
-//manageDisplayModalChantier();
 
 //affichage du chantier dans la galerie
 async function displayChantierModal() {
@@ -206,7 +209,7 @@ function deleteWork() {
         method:"DELETE",
         headers:{"content-type":"application/json"},
       }
-      fetch("http://localhost:5678/api/works" +id,init)
+      fetch("http://localhost:5678/api/works/" +id,init)
       .then((response)=>{
         if (!response.ok) {
           console.log("le delete n'a pas marché !")
@@ -219,7 +222,7 @@ function deleteWork() {
         getWorks()
       })
     })
-  })
+  });
 }
 //Faire apparaitre la deuxime modale une fois le html fini
 const btnAddModal = document.querySelector(".modalChantier button")
@@ -243,8 +246,8 @@ markAdd.addEventListener("click",()=>{ //Faire disparaitre le modale
 })
 }
 displayAddModal()
-//Faire la previsualisation de l'image
 
+//Faire la previsualisation de l'image
 const previewImg = document.querySelector(".containaeFile img")
 const inputFile = document.querySelector(".containaeFile input")
 const labelFile = document.querySelector(".containaeFile label")
@@ -291,6 +294,7 @@ const category = document.querySelector(".modalAddPhoto #categorie")
 form.addEventListener("submit",async (e)=>{
   e.preventDefault() // Annule le comprotement par défaut
   const formData = new FormData(form)
+  console.log("formData:"+formData)
   fetch("http://localhost:5678/api/works",{
    method:"POST",
    body:JSON.stringify(formData),

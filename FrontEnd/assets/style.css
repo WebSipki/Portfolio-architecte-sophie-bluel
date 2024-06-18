@@ -30,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: rgb(246, 246, 239);
 
 }
 ol, ul {
@@ -53,7 +54,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
-	height: 500px;
+	
 }
 header {
 	display: flex;
@@ -79,7 +80,7 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
+
 }
 
 h2{
@@ -128,14 +129,26 @@ li:hover {
 	margin-bottom: 0.5em;
 }
 
-
+/*STYLE Mes Projets*/
 
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.portfolio-title {
+	display: flex;
+	margin-left: 40%;
+	
+}
+
+/* Fin STYLE Mes Projets*/
+
+
+
 .filters{
-text-align: center;	
+text-align: center;
+	
 
 }
 button {
@@ -148,18 +161,22 @@ button {
 	text-align: center;
 	border-radius: 60px ;
 	border: 1px solid #1D6154;
+	padding: 10px;
 }
 .filter__btn--active,.filter__btn-id-1
 {
 	width: 90px;
+	
 }
 .filter__btn-id-2
 {
 	width: 150px;
+	
 }
 .filter__btn-id-3
 {
 	width: 170px;
+	
 }
 button:focus {
 	color: white;
@@ -189,7 +206,7 @@ button:focus {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background-color: white;
+	/*background-color: white;*/
 	margin: auto;
 	height: 250px;
 	width: 400px;
@@ -198,7 +215,7 @@ button:focus {
 	color: red;
 }
 .login h2{
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 .login form{
 	display: flex;
@@ -209,7 +226,9 @@ button:focus {
 }
 .login input{
 	margin-bottom: 10px;
-	padding: 8px;
+	padding: 10px;
+	box-shadow: 3px 3px 3px 3px#ced4d3fa;
+	border: none;
 	
 }
 .loginEmail__error{
@@ -220,8 +239,7 @@ button:focus {
 }
 #submit{
 	cursor: pointer;
-	width: 70%;
-	margin-left: 30px;
+	margin-left: 23%;
 	background-color: #1d6154;
 	color: white;
 	font-size: 1rem;
@@ -236,14 +254,22 @@ button:focus {
 	background-color: white;
 	border: 1px solid #1d6154;
 }
-a{
-	text-decoration: none;
+.login a{
+ 
 	color: black;
+	margin-top: 15px;
+}
+.login a:hover{
+	font-weight:900;
+}
+a{
+	color: black;
+	text-decoration: none;
 }
 a:hover{
 	font-weight:900;
 }
-/* fin de logine*/
+/* fin de login*/
 #contact {
 	width: 50%;
     margin: auto;
@@ -281,7 +307,6 @@ input[type="submit"]{
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
@@ -318,17 +343,28 @@ input[type="submit"]{
 	cursor: pointer;
 }
 
-
+footer{
+	height: 60px;
+	background-color: white;
+}
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em;
+	
 }
-
+/* footer login*/
+footer p{
+    display: flex;
+	justify-content: flex-end;
+	margin: 10em;
+	padding-top:30px ;
+}
 /*style Modal Works*/
 
 .modalChantier h2 {
 	margin-top: 20px;
+	color: #312f2f;
 
 
 }
@@ -347,17 +383,24 @@ footer nav ul {
 .chantierModal figure{
 width: auto;
 display: flex;
+position: relative;
 
 }
 .chantierModal img{
 	width: 70px;
+	margin-bottom: 15px;
+
 		
 }
 .chantierModal span{
-	display:flex-end;
-	
-	
+	position: absolute;
 		
+}
+.fa-solid,
+.fas {
+  font-weight:900;
+  margin-left: 53px;
+  margin-top: 5px;
 }
 
 /* modalAddPhoto*/
