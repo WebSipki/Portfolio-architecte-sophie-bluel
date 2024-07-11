@@ -30,7 +30,7 @@ async function affichageWorks() {
     nomElement.innerText = work.title;
 
     const categorieElement = document.createElement("p");
-    categorieElement.innerText = work.category.name;
+    // categorieElement.innerText = work.category.name;
 
     // Rattachement à un parent des balise au DOM
     // Récupérer un élément parent existant
@@ -132,29 +132,32 @@ const logout = document.querySelector("header nav .logout");
 const containerModals = document.querySelector(".containerModals");
 const xmark = document.querySelector(".containerModals .fa-xmark");
 const chantierModal= document.querySelector(".containerModals .chantierModal");
-const icon = document.querySelector("#admin__modifer");
+const icon = document.querySelector("#admin");
+const barre= document.querySelector("header div");
 
 
 if (loged == "true") {
   const span = document.createElement("span")
-  const trash = document.createElement("i")
-  trash.classList.add("fa-solid","fa-trash-can")
-  span.appendChild(trash)
 const modif = document.createElement("i")
+const barreedition = document.createElement("p")
 modif.classList.add("fa-solid","fa-pen-to-square")
 icon.appendChild(modif)
 icon.appendChild(span)
+barre.appendChild(barreedition)
 icon.textContent = "Modifier";
+icon.classList.add("fa-solid","fa-pen-to-square");
 logout.textContent = "logout";
+barreedition.textContent = "Mode edition";
+barreedition.classList.add("fa-solid","fa-pen-to-square");
 logout.addEventListener("click", () => { //Si l'utilisateur click sur logout , il est déconecté
   window.sessionStorage.loged = false;
 });
 };
 
 
-//Affichage de la modale au click sur admin
+//Affichage de la modale au click sur icon
 icon.addEventListener("click", () => {
-  console.log("admin");
+  console.log("icon");
   containerModals.style.display="flex" // Change dans CSS l'attribut "display: none" en flex pour affichage la modale
 
 });
@@ -167,7 +170,7 @@ xmark.addEventListener("click", () => {
 
 //fermeture de la modale au click à coté
 containerModals.addEventListener("click", (e) => {
-  console.log(e.target.className);
+  //console.log(e.target.className);
   if (e.target.className == "containerModals") {
         containerModals.style.display="none";
   }
@@ -182,32 +185,35 @@ chantier.forEach(work => {
   const figure = document.createElement("figure")
   const img = document.createElement("img")
   const span = document.createElement("span")
+  const div = document.createElement("div")
   const trash = document.createElement("i")
+
   trash.classList.add("fa-solid","fa-trash-can")
   trash.id = work.id
   img.src = work.imageUrl
-  span.appendChild(trash)
+  div.appendChild(trash)
   figure.appendChild(span)
+  span.appendChild(div)
   figure.appendChild(img)
   chantierModal.appendChild(figure)
 
 });
 deleteWork()
 }
-
 displayChantierModal()
+
 
 
 //Suppression d'une image dans la modal
 function deleteWork() {
-  const trashAll = document.querySelectorAll(".fa-trash-can")
+  const trashAll = document.querySelectorAll(".fa-solid.fa-trash-can")
   console.log(trashAll);
   trashAll.forEach(trash => {
-    trash.addEventListener("click",(e)=>{
+    button.addEventListener("click",(e)=>{
       const id = trash.id
       const init ={
         method:"DELETE",
-        headers:{"content-type":"application/json"},
+        headers:{'content-type':'application/json'},
       }
       fetch("http://localhost:5678/api/works/" +id,init)
       .then((response)=>{
@@ -219,11 +225,15 @@ function deleteWork() {
       .then((data)=>{
         console.log("Le delete a réussi voici la data :",data)
         displayChantierModal()
-        getWorks()
+        displayGetWorks()
+        //getWorks()
       })
     })
   });
 }
+
+
+
 //Faire apparaitre la deuxime modale une fois le html fini
 const btnAddModal = document.querySelector(".modalChantier button")
 const modalAddPhoto = document.querySelector(".modalAddPhoto")
@@ -273,7 +283,7 @@ inputFile.addEventListener("change", ()=>{
 
 })
 
-// Création d'une liste de catégories dans l'input Select
+ //Création d'une liste de catégories dans l'input Select
 async function displayCategoryModal (){
   const select = document.querySelector(".modalAddPhoto select")
   const categorys = await getCategorys()
@@ -293,8 +303,15 @@ const category = document.querySelector(".modalAddPhoto #categorie")
 
 form.addEventListener("submit",async (e)=>{
   e.preventDefault() // Annule le comprotement par défaut
-  const formData = new FormData(form)
-  console.log("formData:"+formData)
+  const formData = {
+    title:title.value,
+    categoryId:category.value,
+    imageUrl:previewImg.src,
+    category:{
+      id:category.value,
+      name: category.option[category.selectedIndex].textContent,
+    },
+  };
   fetch("http://localhost:5678/api/works",{
    method:"POST",
    body:JSON.stringify(formData),
@@ -307,7 +324,7 @@ form.addEventListener("submit",async (e)=>{
     console.log(data);
     console.log("voici le photo ajouté",data);
     displayChantierModal()
-    displayChantier()
+    displayModalAddPhoto()
   })
   .catch(error => console.log("voici l'erreur",error))
   
@@ -317,7 +334,7 @@ form.addEventListener("submit",async (e)=>{
 function verifFormCompleted() {
   const buttonValidForm = document.querySelector(".modalAddPhoto button")
   form.addEventListener("input",()=>{
-    if (!title.value =="" && !category.value =="" && !inputFile.value ==""){
+    if (!title.value =="" && !category.value =="" && !inputFile.src ==""){
       buttonValidForm.classList.add("valid")
     }
     else{
