@@ -1,21 +1,19 @@
-
-
-
 /**** Les variables ******/
 const gallery = document.querySelector("#gallerie");
 const filters = document.querySelector(".filters");
 
 
+
 // Récupération des éléments depuis le Swager
 async function getWorks() { /*(async)pour dire que à cette fonction il doit falloir attendre avant continue à lire mon code */
-const response = await fetch("http://localhost:5678/api/works");
-data = await response.json();
-console.log(data);
-return data;
-}
-getWorks(); 
+  const response = await fetch("http://localhost:5678/api/works");
+  data = await response.json();
+  console.log(data);
+  return data;
+  }
+  getWorks(); 
 
-//Affichage des works dans le DOM:
+  //Affichage des works dans le DOM:
 async function affichageWorks() {
   const arrayWorks = await getWorks();
   arrayWorks.forEach((work) => {
@@ -30,7 +28,7 @@ async function affichageWorks() {
     nomElement.innerText = work.title;
 
     const categorieElement = document.createElement("p");
-    // categorieElement.innerText = work.category.name;
+   
 
     // Rattachement à un parent des balise au DOM
     // Récupérer un élément parent existant
@@ -53,11 +51,11 @@ function createWorks(work) {
   const imageElement = document.createElement("img");
   const figcaptionElement = document.createElement("figcaption");
   const nomElement = document.createElement("h3");
-  const categorieElement = document.createElement("p");
+  
 
   imageElement.src = work.imageUrl;
   nomElement.innerText = work.title;
-  categorieElement.innerText = work.category.name;
+  
 
   let parentElement1 = document.getElementById("gallerie");
 
@@ -65,12 +63,11 @@ function createWorks(work) {
   figureElement.appendChild(imageElement);
   figureElement.appendChild(figcaptionElement);
   figcaptionElement.appendChild(nomElement);
-  figcaptionElement.appendChild(categorieElement);
+  
 
 }
 
 // *****************Affichage des boutons par catégorie*****************/
-
 
 // Récupérer le tableau des catégories
 
@@ -92,6 +89,7 @@ async function displayCategorysButtons() {
 
 }
 displayCategorysButtons();
+
 
 // Filtrer au click sur les boutons par catégorie
 async function filterCategory() {
@@ -135,7 +133,6 @@ const chantierModal= document.querySelector(".containerModals .chantierModal");
 const icon = document.querySelector("#admin");
 const barre= document.querySelector("header div");
 
-
 if (loged == "true") {
   const span = document.createElement("span")
 const modif = document.createElement("i")
@@ -154,10 +151,9 @@ logout.addEventListener("click", () => { //Si l'utilisateur click sur logout , i
 });
 };
 
-
 //Affichage de la modale au click sur icon
 icon.addEventListener("click", () => {
-  console.log("icon");
+  //console.log("icon");
   containerModals.style.display="flex" // Change dans CSS l'attribut "display: none" en flex pour affichage la modale
 
 });
@@ -175,8 +171,7 @@ containerModals.addEventListener("click", (e) => {
         containerModals.style.display="none";
   }
 });
-
-//affichage du chantier dans la galerie
+// Affichage du chantier dans la galerie
 async function displayChantierModal() {
   chantierModal.innerHTML =""
   const chantier = await getWorks();
@@ -196,24 +191,25 @@ chantier.forEach(work => {
   span.appendChild(div)
   figure.appendChild(img)
   chantierModal.appendChild(figure)
-
 });
 deleteWork()
 }
-displayChantierModal()
-
+displayChantierModal();
 
 
 //Suppression d'une image dans la modal
 function deleteWork() {
-  const trashAll = document.querySelectorAll(".fa-solid.fa-trash-can")
+  const trashAll = document.querySelectorAll(".fa-solid.fa-trash-can");
+  const userToken = sessionStorage.getItem("userToken");
   console.log(trashAll);
   trashAll.forEach(trash => {
-    button.addEventListener("click",(e)=>{
+    trash.addEventListener("click",(e)=>{
       const id = trash.id
       const init ={
         method:"DELETE",
-        headers:{'content-type':'application/json'},
+        headers:{'content-type':'application/json',
+           'Authorization': `Bearer ${userToken}`
+        },
       }
       fetch("http://localhost:5678/api/works/" +id,init)
       .then((response)=>{
@@ -233,114 +229,3 @@ function deleteWork() {
 }
 
 
-
-//Faire apparaitre la deuxime modale une fois le html fini
-const btnAddModal = document.querySelector(".modalChantier button")
-const modalAddPhoto = document.querySelector(".modalAddPhoto")
-const modalChantier = document.querySelector(".modalChantier")
-const arrowLeft = document.querySelector(".fa-arrow-left")
-const markAdd = document.querySelector(".modalAddPhoto .fa-xmark")
-
-
-function displayAddModal() {
-btnAddModal.addEventListener("click",()=>{ //Ajouter une photo et Faire apparaitre le modale Ajout Photo
-  modalAddPhoto.style.display = "flex"
-  modalChantier.style.display = "none"
-})
-arrowLeft.addEventListener("click",()=>{ //Revenir en arrière sur le modale Galerie photo
-  modalAddPhoto.style.display = "none"
-  modalChantier.style.display = "flex"
-})
-markAdd.addEventListener("click",()=>{ //Faire disparaitre le modale
-  containerModals.style.display = "none"
-})
-}
-displayAddModal()
-
-//Faire la previsualisation de l'image
-const previewImg = document.querySelector(".containaeFile img")
-const inputFile = document.querySelector(".containaeFile input")
-const labelFile = document.querySelector(".containaeFile label")
-const inconFile = document.querySelector(".containaeFile .fa-image")
-const pFile = document.querySelector(".containaeFile p")
-
-// ajouter une image et prévisualiser l'image
-inputFile.addEventListener("change", ()=>{
-  const file = inputFile.files[0]
-  console.log(file);
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function (e){
-      previewImg.src = e.target.result
-      previewImg.style.display = "flex"
-      labelFile.style.display = "none"
-      inconFile.style.display = "none"
-      pFile.style.display = "none"
-    }
-
-    reader.readAsDataURL(file);
-  }
-
-})
-
- //Création d'une liste de catégories dans l'input Select
-async function displayCategoryModal (){
-  const select = document.querySelector(".modalAddPhoto select")
-  const categorys = await getCategorys()
-  categorys.forEach(category => {
-    const option = document.createElement("option")
-    option.value = category.id
-    option.textContent = category.name
-    select.appendChild(option)
-  })
-}
-displayCategoryModal ()
-
-// Faire un POST pour ajouter une photo
-const form = document.querySelector(".modalAddPhoto form")
-const title = document.querySelector(".modalAddPhoto #title")
-const category = document.querySelector(".modalAddPhoto #categorie")
-
-form.addEventListener("submit",async (e)=>{
-  e.preventDefault() // Annule le comprotement par défaut
-  const formData = {
-    title:title.value,
-    categoryId:category.value,
-    imageUrl:previewImg.src,
-    category:{
-      id:category.value,
-      name: category.option[category.selectedIndex].textContent,
-    },
-  };
-  fetch("http://localhost:5678/api/works",{
-   method:"POST",
-   body:JSON.stringify(formData),
-   headers:{
-    "content-Type":"application/json"
-   }
-  })
-   .then(response => response.json())
-   .then(data =>{
-    console.log(data);
-    console.log("voici le photo ajouté",data);
-    displayChantierModal()
-    displayModalAddPhoto()
-  })
-  .catch(error => console.log("voici l'erreur",error))
-  
-})
-
-//Fonction qui vérifie si tout les inputs sont remplis
-function verifFormCompleted() {
-  const buttonValidForm = document.querySelector(".modalAddPhoto button")
-  form.addEventListener("input",()=>{
-    if (!title.value =="" && !category.value =="" && !inputFile.src ==""){
-      buttonValidForm.classList.add("valid")
-    }
-    else{
-      buttonValidForm.classList.remove("valid")
-      buttonValidForm.disabled = true
-    }
-  })
-}
-verifFormCompleted()
